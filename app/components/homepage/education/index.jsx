@@ -3,8 +3,8 @@ import { educations } from "@/utils/data/educations";
 import Image from "next/image";
 import { BsPersonWorkspace } from "react-icons/bs";
 import lottieFile from '../../../assets/lottie/study.json';
-import AnimationLottie from "../../helper/animation-lottie";
-import GlowCard from "../../helper/glow-card";
+import DynamicAnimationLottie from "../../helper/dynamic-animation-lottie";
+import DynamicGlowCard from "../../helper/dynamic-glow-card";
 
 function Education() {
   return (
@@ -36,7 +36,7 @@ function Education() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           <div className="flex justify-center items-start">
             <div className="w-3/4 h-3/4">
-              <AnimationLottie animationPath={lottieFile} />
+              <DynamicAnimationLottie animationPath={lottieFile} />
             </div>
           </div>
 
@@ -44,7 +44,7 @@ function Education() {
             <div className="flex flex-col gap-6">
               {
                 educations.map(education => (
-                  <GlowCard key={education.id} identifier={`education-${education.id}`}>
+                  <DynamicGlowCard key={education.id} identifier={`education-${education.id}`}>
                     <div className="p-3 relative text-white">
                       <Image
                         src="/blur-23.svg"
@@ -70,7 +70,7 @@ function Education() {
                         </div>
                       </div>
                     </div>
-                  </GlowCard>
+                  </DynamicGlowCard>
                 ))
               }
             </div>
