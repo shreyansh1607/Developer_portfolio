@@ -1,4 +1,4 @@
-// app/client-components.jsx (CLIENT COMPONENT)
+// app/client-components.jsx (Client Component)
 "use client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

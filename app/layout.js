@@ -1,4 +1,4 @@
-// app/layout.js (SERVER COMPONENT - no "use client")
+// app/layout.js (Server Component)
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
 import "./css/globals.scss";
@@ -8,8 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Portfolio of shreyansh yadav - Software Developer",
-  description:
-    "This is the portfolio of Shreyansh. I am a full stack developer and a self taught developer. I love to learn new things and I am always open to collaborating with others. I am a quick learner and I am always looking for new challenges.",
+  description: "This is the portfolio..."
 };
 
 export default function RootLayout({ children }) {
