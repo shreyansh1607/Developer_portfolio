@@ -2,18 +2,24 @@
 // @flow strict
 import { isValidEmail } from "@/utils/check-email";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TbMailForward } from "react-icons/tb";
 import { toast } from "react-toastify";
+import { isBrowser } from "@/utils/is-browser";
 
 function ContactForm() {
   const [error, setError] = useState({ email: false, required: false });
   const [isLoading, setIsLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [userInput, setUserInput] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const checkRequired = () => {
     if (userInput.email && userInput.message && userInput.name) {
@@ -40,14 +46,18 @@ function ContactForm() {
         userInput
       );
 
-      toast.success("Message sent successfully!");
+      if (isMounted && isBrowser()) {
+        toast.success("Message sent successfully!");
+      }
       setUserInput({
         name: "",
         email: "",
         message: "",
       });
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      if (isMounted && isBrowser()) {
+        toast.error(error?.response?.data?.message);
+      }
     } finally {
       setIsLoading(false);
     };
@@ -98,30 +108,28 @@ function ContactForm() {
               required={true}
               onChange={(e) => setUserInput({ ...userInput, message: e.target.value })}
               onBlur={checkRequired}
-              rows="4"
               value={userInput.message}
             />
           </div>
-          <div className="flex flex-col items-center gap-3">
-            {error.required && <p className="text-sm text-red-400">
-              All fiels are required!
-            </p>}
-            <button
-              className="flex items-center gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-5 md:px-12 py-2.5 md:py-3 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all duration-200 ease-out hover:text-white hover:no-underline md:font-semibold"
-              role="button"
-              onClick={handleSendMail}
-              disabled={isLoading}
-            >
-              {
-                isLoading ?
-                <span>Sending Message...</span>:
-                <span className="flex items-center gap-1">
-                  Send Message
-                  <TbMailForward size={20} />
-                </span>
-              }
-            </button>
-          </div>
+        </div>
+
+        <div className="mt-6">
+          <button
+            onClick={handleSendMail}
+            disabled={isLoading}
+            className="bg-gradient-to-r to-pink-500 from-violet-600 p-[1px] rounded-full transition-all duration-300 hover:from-pink-500 hover:to-violet-600"
+          >
+            <div className="bg-[#0d1224] rounded-full px-3 py-2 md:px-8 md:py-3 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-[#ffff] no-underline transition-all duration-200 ease-out md:font-semibold flex items-center gap-1 hover:gap-3">
+              {isLoading ? (
+                <span>Sending...</span>
+              ) : (
+                <>
+                  <span>Send Message</span>
+                  <TbMailForward size={16} />
+                </>
+              )}
+            </div>
+          </button>
         </div>
       </div>
     </div>

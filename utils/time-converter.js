@@ -1,4 +1,10 @@
 export function timeConverter(isoTime) {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') {
+    // Return a simple string for server-side rendering
+    return 'recently';
+  }
+  
   const currentTime = new Date().getTime();
   const pastTime = new Date(isoTime).getTime();
   const timeDifference = currentTime - pastTime;

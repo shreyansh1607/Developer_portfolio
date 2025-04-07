@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react';
+import { isBrowser, safeDocument } from '@/utils/is-browser';
 
 const GlowCard = ({ children, identifier }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -8,9 +9,14 @@ const GlowCard = ({ children, identifier }) => {
   useEffect(() => {
     setIsMounted(true);
     
-    // Only access document after component has mounted
-    const CONTAINER = document.querySelector(`.glow-container-${identifier}`);
-    const CARDS = document.querySelectorAll(`.glow-card-${identifier}`);
+    // Only access document after component has mounted and we're in a browser environment
+    if (!isBrowser()) return;
+    
+    const doc = safeDocument();
+    if (!doc) return;
+    
+    const CONTAINER = doc.querySelector(`.glow-container-${identifier}`);
+    const CARDS = doc.querySelectorAll(`.glow-card-${identifier}`);
 
     const CONFIG = {
       proximity: 40,
@@ -52,7 +58,7 @@ const GlowCard = ({ children, identifier }) => {
       }
     };
 
-    document.body.addEventListener('pointermove', UPDATE);
+    doc.body.addEventListener('pointermove', UPDATE);
 
     const RESTYLE = () => {
       CONTAINER.style.setProperty('--gap', CONFIG.gap);
@@ -69,7 +75,7 @@ const GlowCard = ({ children, identifier }) => {
 
     // Cleanup event listener
     return () => {
-      document.body.removeEventListener('pointermove', UPDATE);
+      doc.body.removeEventListener('pointermove', UPDATE);
     };
   }, [identifier]);
 
