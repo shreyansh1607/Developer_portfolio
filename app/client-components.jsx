@@ -1,13 +1,19 @@
-// app/client-components.jsx (Client Component)
+// app/ClientApp.jsx
 "use client";
+import dynamic from 'next/dynamic';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/footer";
-import ScrollToTop from "./components/helper/scroll-to-top";
 import Navbar from "./components/navbar";
 import "./css/card.scss";
 
-export default function ClientComponents({ children }) {
+// Dynamically import ScrollToTop with SSR disabled
+const ScrollToTop = dynamic(
+  () => import('./components/helper/scroll-to-top'),
+  { ssr: false }
+);
+
+export default function ClientApp({ children }) {
   return (
     <>
       <ToastContainer />
